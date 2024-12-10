@@ -1,0 +1,29 @@
+{
+  "name": "programming_101",
+  "version": "1.0.0",
+  "description": "programming fundamentals",
+  "main": "commitlint.config.js",
+  "scripts": {
+    "test": "mocha",
+    "prepare": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anagumo/programming_101.git"
+  },
+  "keywords": [
+    "programming"
+  ],
+  "author": "ariana nagumo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anagumo/programming_101/issues"
+  },
+  "homepage": "https://github.com/anagumo/programming_101#readme",
+  "devDependencies": {
+    "@commitlint/cli": "^19.6.0",
+    "@commitlint/config-conventional": "^19.6.0",
+    "husky": "^9.1.7",
+    "mocha": "^11.0.1"
+  }
+}
