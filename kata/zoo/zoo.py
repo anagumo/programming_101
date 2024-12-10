@@ -1,4 +1,3 @@
-
 from enum import Enum
 from typing import Tuple
 
@@ -15,7 +14,12 @@ class Ticket(Enum):
     ADULT = 3
     RETIRED = 4
 
-tickets = []
+tickets = {
+    Ticket.FREE: {"price": 0, "e_umbral": 3},
+    Ticket.CHILD: {"price": 14, "e_umbral": 13},
+    Ticket.ADULT: {"price": 65, "e_umbral": 23},
+    Ticket.RETIRED: {"price": 18, "e_umbral": float('inf')}
+}
 
 def calculate_ticket(age:int) -> Tuple[int, Ticket, int]:
     """
@@ -27,14 +31,10 @@ def calculate_ticket(age:int) -> Tuple[int, Ticket, int]:
     type = Ticket.FREE
     price = 0
 
-    if age >= 3 and age <= 12:
-        type, price = Ticket.CHILD, 14
-    elif age >= 13 and age < 65:
-        type, price = Ticket.ADULT, 23
-    elif age >= 65:
-        type, price = Ticket.RETIRED, 18
-    else:
-        type, price = Ticket.FREE, 0
+    for type in tickets:
+        if age < tickets[type]["e_umbral"]:
+            price = tickets[type]["price"]
+            break
 
     return type, price
 
@@ -115,6 +115,6 @@ while True:
         break
     elif is_integer(response):
         ticket = calculate_ticket(int(response))
-        tickets.append(ticket)
+        #tickets.append(ticket)
 
-total_price_details = calculate_total_price(tickets)
+#total_price_details = calculate_total_price(tickets)
