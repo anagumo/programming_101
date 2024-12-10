@@ -117,5 +117,4 @@ while True:
         ticket = calculate_ticket(int(response))
         tickets.append(ticket)
 
-total_price_details = calculate_total_price(tickets)
-print(get_invoice(total_price_details))
+#total_price_details = calculate_total_price(tickets)

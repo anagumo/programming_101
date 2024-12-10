@@ -1,1 +1,1 @@
-Programming 101 using python/jupyter colab
+Programming fundamentals using python
