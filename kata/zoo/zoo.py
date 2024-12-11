@@ -15,13 +15,14 @@ class Ticket(Enum):
     RETIRED = 4
 
 tickets = {
-    Ticket.FREE: {"price": 0, "e_umbral": 3},
-    Ticket.CHILD: {"price": 14, "e_umbral": 13},
-    Ticket.ADULT: {"price": 65, "e_umbral": 23},
-    Ticket.RETIRED: {"price": 18, "e_umbral": float('inf')}
+    Ticket.FREE: {"price": 0, "e_umbral": 3, "desc": "Children (<2 years old)"},
+    Ticket.CHILD: {"price": 14, "e_umbral": 13, "desc": "Children (3-12 years old)"},
+    Ticket.ADULT: {"price": 65, "e_umbral": 23, "desc": "Adult (13-64 years old)"},
+    Ticket.RETIRED: {"price": 18, "e_umbral": float('inf'), "desc": "Retired (65+ years old)"}
 }
+total_tickets = []
 
-def calculate_ticket(age:int) -> Tuple[int, Ticket, int]:
+def calculate_ticket(age:int) -> Tuple[Ticket, int]:
     """
     Pure and total function that takes a number as input and returns a tuple
     grouping the type of ticket and the price.
@@ -32,8 +33,8 @@ def calculate_ticket(age:int) -> Tuple[int, Ticket, int]:
     price = 0
 
     for type in tickets:
-        if age < tickets[type]["e_umbral"]:
-            price = tickets[type]["price"]
+        if age < tickets[type]['e_umbral']:
+            price = tickets[type]['price']
             break
 
     return type, price
@@ -54,34 +55,26 @@ def is_integer(input_text:str) -> bool:
         is_integer = False
     return is_integer
 
-def calculate_total_price(tickets: Tuple[Ticket, int]) -> Tuple[int, list, list]:
+def calculate_total_price(total_tickets: Tuple[Ticket, int]) -> Tuple[int, dict]:
     """
     Conversor function that takes a tuple as input and returns another one.
     The new tuple should include the total price, total tickets by group and sobtotal by group.
     """
-    tickets_by_group = [0,0,0,0]
-    subtotal_by_group = [0,0,0,0]
     total_price = 0
-
-    for type, price in tickets:
-        if type == Ticket.FREE:
-            tickets_by_group[0] = tickets_by_group[0] + 1
-            subtotal_by_group[0] = subtotal_by_group[0] + price
-        elif type == Ticket.CHILD:
-            tickets_by_group[1] = tickets_by_group[1] + 1
-            subtotal_by_group[1] = subtotal_by_group[1] + price
-        elif type == Ticket.ADULT:
-            tickets_by_group[2] = tickets_by_group[2] + 1
-            subtotal_by_group[2] = subtotal_by_group[2] + price
-        elif type == Ticket.RETIRED:
-            tickets_by_group[3] = tickets_by_group[3] + 1
-            subtotal_by_group[3] = subtotal_by_group[3] + price
-        
+    invoice = {
+        Ticket.FREE: 0,
+        Ticket.CHILD: 0,
+        Ticket.ADULT: 0,
+        Ticket.RETIRED: 0
+    }
+    
+    for type, price in total_tickets:
         total_price = total_price + price
+        invoice[type] = invoice[type] + 1
+        
+    return total_price, invoice
 
-    return total_price, tickets_by_group, subtotal_by_group
-
-def get_invoice(total_price_details: Tuple[int, list, list]) ->int:
+def get_invoice_desc(total_price_details: Tuple[int, dict]) -> int:
     """
     Conversor function that takes a tuple as input and returns a string.
     The string should concatente the price information of each ticket.
@@ -89,19 +82,16 @@ def get_invoice(total_price_details: Tuple[int, list, list]) ->int:
     - If the total price is equal to zero, the function should return an empty string
     - If the tickets by group is equal to zero, the function should not display the list
     """
-    tickets_by_type = ["Children (<2 years old)", "Children (3-12 years old)", "Adult (13-64 years old)", "Retired (65+ years old)"]
-    tickets_by_price = [0,14,23,18]
-    total_price, tickets_by_group, subtotal_by_group = total_price_details
-    invoice = ""
+    total_price, invoice = total_price_details
+    invoice_details = ""
 
     if total_price > 0:
-        invoice = f"Total price of the group: {total_price:.2f} euros\nDetails for age:\n" + invoice
-        for index, tickets_by_group in enumerate(tickets_by_group):
-            if tickets_by_group > 0:
-                ticket_info = f"{tickets_by_type[index]}: {tickets_by_group} x {tickets_by_price[index]} euros = {subtotal_by_group[index]} euros\n"
-                invoice = invoice + ticket_info
+        invoice_details = f"Total price of the group: {total_price:.2f} euros\nDetails for age:\n" + invoice_details
+        for ticket_key in invoice:
+            ticket_desc = f"{tickets[ticket_key]['desc']}: {invoice[ticket_key]} x {tickets[ticket_key]['price']} euros = {invoice[ticket_key] * tickets[ticket_key]['price']} euros\n"
+            invoice_details = invoice_details + ticket_desc
     else:
-        invoice = "¡See you!"
+        invoice_details = "¡See you!"
 
     return invoice
 
@@ -115,6 +105,7 @@ while True:
         break
     elif is_integer(response):
         ticket = calculate_ticket(int(response))
-        #tickets.append(ticket)
+        total_tickets.append(ticket)
 
-#total_price_details = calculate_total_price(tickets)
+total_price_details = calculate_total_price(total_tickets)
+print(total_price_details)

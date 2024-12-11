@@ -15,10 +15,18 @@ def test_input():
 def test_total_price():
     assert zoo.calculate_total_price([
         (zoo.Ticket.RETIRED, 18),
-        (zoo.Ticket.CHILD, 14)]) == (32,[0,1,0,1],[0,14,0,18])
+        (zoo.Ticket.CHILD, 14)]) == (32,{
+        zoo.Ticket.FREE: 0,
+        zoo.Ticket.CHILD: 1,
+        zoo.Ticket.ADULT: 0,
+        zoo.Ticket.RETIRED: 1
+    })
     
     assert zoo.calculate_total_price([
         (zoo.Ticket.FREE, 0),
         (zoo.Ticket.CHILD, 14),
         (zoo.Ticket.CHILD, 14),
-        (zoo.Ticket.ADULT, 23,)]) == (51,[1,2,1,0],[0,28,23,0])
+        (zoo.Ticket.ADULT, 23,)]) == (51,{zoo.Ticket.FREE: 1,
+                                          zoo.Ticket.CHILD: 2,
+                                          zoo.Ticket.ADULT: 1,
+                                          zoo.Ticket.RETIRED: 0})
