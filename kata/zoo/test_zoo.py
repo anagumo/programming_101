@@ -29,11 +29,5 @@ def test_invoice_desc():
                      (zoo.Ticket.ADULT, 23)]
     total_price_details = zoo.calculate_total_price(total_tickets)
     actual_invoice_desc = zoo.get_invoice_desc(total_price_details)
-    expected_invoice_desc = """Total price of the group: 51.00€
-    Details for age:
-    Children (<2 years old): 0 x 0.00€ = 0.00€
-    Children (3-12 years old): 2 x 14.00€ = 28.00€
-    Adult (13-64 years old): 1 x 23.00€ = 23.00€
-    Retired (65+ years old): 0 x 18.00€ = 00.00€"""
-
+    expected_invoice_desc = "Total price of the group: 51.00€\nDetails for age:\nChildren (<2 years old): 0 x 0.00€ = 0.00€\nChildren (3-12 years old): 2 x 14.00€ = 28.00€\nAdult (13-64 years old): 1 x 23.00€ = 23.00€\nRetired (65+ years old): 0 x 18.00€ = 0.00€"
     assert not actual_invoice_desc == expected_invoice_desc, "Strings do not match"
