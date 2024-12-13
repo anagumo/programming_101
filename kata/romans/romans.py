@@ -1,3 +1,4 @@
+from kata.common import predicate_functions
 
 """
 to_romans(arabics: list[int])
@@ -22,16 +23,19 @@ romans = {
 def to_romans(arabic_number) -> list[int]:
     """
     A pure conversor function that takes a number as input and returns
-    a string. 
+    a string.
     Corner cases:
     - If the input is zero, the function should return and empty list
     """
     roman_values = ""
     arabic_reminder = arabic_number
-    
-    for key, value in romans.items():
-        while arabic_reminder >= key:
-            arabic_reminder = arabic_reminder - key
-            roman_values = roman_values + value
-        
+
+    if predicate_functions.is_integer(arabic_number) or arabic_number != 0:
+        for key, value in romans.items():
+            while arabic_reminder >= key:
+                arabic_reminder = arabic_reminder - key
+                roman_values = roman_values + value
+    else:
+        raise TypeError("The input is not a valid arabic number")
+
     return roman_values
