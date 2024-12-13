@@ -54,7 +54,7 @@ def _test_to_arabic():
     assert romans.to_romans("XCIX") == 99
     assert romans.to_arabic("MCMXXXIX") == 1939
 
-# TODO: Implement math expresions, ej.: simplify_romans(["CD", "IX"], operation) -> CDIX
+# TODO: Implement math expresions, ej.: simplify_romans("CD + IX") -> CDIX
 def _test_simplify_romans():
     assert romans.simplify_romans("CD + IX") == "CDIX"
     assert romans.simplify_romans("CD - IX") == "CCCXCI"
