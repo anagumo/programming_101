@@ -41,3 +41,38 @@ kata/romans/test_romans.py .....
 
 ============================================================================= 5 passed in 0.01s ==============================================================================
 """
+
+# TODO: Support arabic numbers greater than 3999
+def _test_thousands_greater_than_3999():
+    assert romans.to_romans(4001) == "IV*I"
+    assert romans.to_romans(8231) == "VIII*CCXXXI"
+    assert romans.to_romans(10330) == "X*CCCXXX"
+    
+"""
+================================================================================== FAILURES ==================================================================================
+______________________________________________________________________ test_thousands_greater_than_3999 ______________________________________________________________________
+
+    def test_thousands_greater_than_3999():
+>       assert romans.to_romans(4001) == "IV*I"
+E       AssertionError: assert 'MMMMI' == 'IV*I'
+E         
+E         - IV*I
+E         + MMMMI
+
+kata/romans/test_romans.py:47: AssertionError
+========================================================================== short test summary info ===========================================================================
+FAILED kata/romans/test_romans.py::test_thousands_greater_than_3999 - AssertionError: assert 'MMMMI' == 'IV*I'
+======================================================================== 1 failed, 5 passed in 0.05s =========================================================================
+"""
+
+# TODO: Implement romans to arabic numbers conversion, ej.: to_arabic(MCMXXXIX) -> 1939
+def _to_arabic():
+    assert romans.to_romans("VI") == 6
+    assert romans.to_romans("XCIX") == 99
+    assert romans.to_arabic("MCMXXXIX") == 1939
+
+# TODO: Implement math expresions, ej.: simplify_romans(["CD", "IX"], operation) -> CDIX
+def _calculate_romans():
+    assert romans.simplify_romans("CD + IX") == "CDIX"
+    assert romans.simplify_romans("CD - IX") == "CCCXCI"
+    assert romans.simplify_romans("CD * IX") == "MMMDC"
