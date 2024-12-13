@@ -1,7 +1,7 @@
 from pytest import raises
 import romans
 
-def test_invalid_input():
+def test_value_raises_type_error():
     with raises(TypeError):
         romans.to_romans("")
     
@@ -42,11 +42,18 @@ kata/romans/test_romans.py .....
 ============================================================================= 5 passed in 0.01s ==============================================================================
 """
 
-# TODO: Support arabic numbers greater than 3999
+def test_arabic_raises_value_error_when_greater_than_3999():
+    with raises(ValueError):
+        romans.to_romans(4000)
+    with raises(ValueError):
+        romans.to_romans(10550)
+    with raises(ValueError):
+        romans.to_romans(980345)
+
 def _test_thousands_greater_than_3999():
     assert romans.to_romans(4001) == "IV*I"
-    assert romans.to_romans(8231) == "VIII*CCXXXI"
-    assert romans.to_romans(10330) == "X*CCCXXX"
+    assert romans.to_romans(80231) == "LXXX**CCXXXI"
+    assert romans.to_romans(190330) == "C***XC**CCCXXX"
 
 # TODO: Implement romans to arabic numbers conversion, ej.: to_arabic(MCMXXXIX) -> 1939
 def _test_to_arabic():

@@ -20,6 +20,9 @@ romans = {
     9:'IX', 5:'V', 4:'IV', 1:'I'
 }
 
+def to_romans_greater_than_3999():
+    pass
+
 def to_romans(arabic_number) -> list[int]:
     """
     A pure conversor function that takes a number as input and returns
@@ -29,12 +32,17 @@ def to_romans(arabic_number) -> list[int]:
     """
     roman_values = ""
     arabic_reminder = arabic_number
+    min_point_value = 3999
 
     if predicate_functions.is_integer(arabic_number) or arabic_number != 0:
         for key, value in romans.items():
             while arabic_reminder >= key:
-                arabic_reminder = arabic_reminder - key
-                roman_values = roman_values + value
+                if arabic_number > min_point_value:
+                    raise ValueError("The input is greater than 3999")
+                else:
+                    arabic_reminder = arabic_reminder - key
+                    roman_values = roman_values + value
+                
     else:
         raise TypeError("The input is not a valid arabic number")
 
