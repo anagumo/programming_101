@@ -14,7 +14,7 @@ from romans dictionary: to_romans(number)
 Structure data that includes the significant roman symbols
 """
 romans = {
-    1000:'M',
+    9000:'IX', 5000:'V', 4000:'IV', 1000:'M',
     900:'CM', 500:'D', 400:'CD', 100:'C',
     90:'XC', 50:'L', 40:'XL', 10:'X', 
     9:'IX', 5:'V', 4:'IV', 1:'I'
@@ -31,18 +31,18 @@ def to_romans(arabic_number) -> list[int]:
     - If the input is zero, the function should return and empty list
     """
     roman_values = ""
-    arabic_reminder = arabic_number
+    arabic_reminder = arabic_number #4000, 1, 0
     min_point_value = 3999
 
     if predicate_functions.is_integer(arabic_number) or arabic_number != 0:
         for key, value in romans.items():
             while arabic_reminder >= key:
-                if arabic_number > min_point_value:
-                    raise ValueError("The input is greater than 3999")
+                if arabic_reminder > min_point_value:
+                    roman_values = roman_values + value + '*'
                 else:
-                    arabic_reminder = arabic_reminder - key
                     roman_values = roman_values + value
-                
+
+                arabic_reminder = arabic_reminder - key
     else:
         raise TypeError("The input is not a valid arabic number")
 
