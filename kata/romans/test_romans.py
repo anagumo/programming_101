@@ -42,7 +42,7 @@ kata/romans/test_romans.py .....
 ============================================================================= 5 passed in 0.01s ==============================================================================
 """
 
-def test_arabic_raises_value_error_when_greater_than_3999():
+def _test_arabic_raises_value_error_when_greater_than_3999():
     with not raises(ValueError):
         romans.to_romans(4000)
     with not raises(ValueError):
@@ -50,10 +50,20 @@ def test_arabic_raises_value_error_when_greater_than_3999():
     with not raises(ValueError):
         romans.to_romans(980345)
 
-def test_thousands_greater_than_3999():
-    assert romans.to_romans(4001) == "IV*I"
-    #assert romans.to_romans(80231) == "LXXX**CCXXXI"
-    #assert romans.to_romans(190330) == "C***XC**CCCXXX"
+def test_numbers_greater_than_3999_and_less_than_10000():
+    assert romans.to_romans(4825) == "IV*DCCCXXV"
+    assert romans.to_romans(6001) == "VI*I"
+    assert romans.to_romans(9001) == "IX*I"
+
+def test_numbers_greater_than_9999_and_less_than_100000():
+    assert romans.to_romans(40825) == "XL**DCCCXXV"
+    assert romans.to_romans(60001) == "LX**I"
+    assert romans.to_romans(90001) == "XC**I"
+
+def test_numbers_greater_than_99999_and_less_than_1000000():
+    assert romans.to_romans(400825) == "CD***DCCCXXV"
+    assert romans.to_romans(600001) == "DC***I"
+    assert romans.to_romans(900001) == "CM***I"
 
 # TODO: Implement romans to arabic numbers conversion, ej.: to_arabic(MCMXXXIX) -> 1939
 def _test_to_arabic():
