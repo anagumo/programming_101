@@ -22,6 +22,12 @@ romans = {
     9:'IX', 5:'V', 4:'IV', 1:'I'
 }
 
+romans_keys = {
+    100000: {'symbol': 'C', 'points': '***'}, 
+    10000: {'symbol': 'X', 'points': '**'}, 
+    1000: {'symbol': 'I', 'points': '*'}
+}
+
 def to_romans(arabic_number) -> list[int]:
     """
     A pure conversor function that takes a number as input and returns
@@ -37,20 +43,20 @@ def to_romans(arabic_number) -> list[int]:
         for key, value in romans.items():
             while arabic_reminder >= key:
                 if key == 100000 and arabic_number > grater_than:
-                    roman_values = roman_values + 'C'
+                    roman_values = roman_values + romans_keys[key]['symbol']
                     if arabic_reminder - key < 100000:
-                        roman_values = roman_values + '***'
+                        roman_values = roman_values + romans_keys[key]['points']
                 elif key == 10000 and arabic_number > grater_than:
-                    roman_values = roman_values + 'X'
+                    roman_values = roman_values + romans_keys[key]['symbol']
                     if arabic_reminder - key < 10000:
-                        roman_values = roman_values + '**'
+                        roman_values = roman_values + romans_keys[key]['points']
                 elif key == 1000 and arabic_number > grater_than:
-                    roman_values = roman_values + 'I'
+                    roman_values = roman_values + romans_keys[key]['symbol']
                     if arabic_reminder - key < 1000:
-                        roman_values = roman_values + '*'
+                        roman_values = roman_values + romans_keys[key]['points']
                 else:
                     roman_values = roman_values + value
-                        
+
                 arabic_reminder = arabic_reminder - key
     else:
         raise TypeError("The input is not a valid arabic number")
