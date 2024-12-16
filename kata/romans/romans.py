@@ -62,3 +62,21 @@ def to_romans(arabic_number: int) -> list[int]:
         raise TypeError("The input is not a valid arabic number")
 
     return roman_values
+
+
+def convert_to_arabics(roman_str: str) -> list [int]:
+    """
+    A pure conversor function that takes a string as input and returns a list
+    of numbers where each element is the conversion from roman symbol to arabic number.
+    Corner cases:
+    - If the input is an empty string, the function should return an empty list.
+    - If the input is an invalid str, the function should handle the error.
+    """
+    arabic_list = []
+    
+    for roman_symbol in roman_str:
+        for roman_key, roman_value in romans.items():
+            if roman_value == roman_symbol:
+                arabic_list.append(roman_key)
+
+    return arabic_list

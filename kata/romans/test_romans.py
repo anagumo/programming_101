@@ -65,11 +65,10 @@ def test_numbers_greater_than_99999_and_less_than_1000000():
     assert romans.to_romans(600001) == "DC***I"
     assert romans.to_romans(900001) == "CM***I"
 
-# TODO: Implement romans to arabic numbers conversion, ej.: to_arabic(MCMXXXIX) -> 1939
-def _test_to_arabic():
-    assert romans.to_arabic("VI") == 6
-    assert romans.to_arabic("XCIX") == 99
-    assert romans.to_arabic("MCMXXXIX") == 1939
+def test_to_arabic():
+    assert romans.convert_to_arabics("VI") == [5,1]
+    assert romans.convert_to_arabics("XCIX") == [10,100,1,10]
+    assert romans.convert_to_arabics("MCMXXXIX") == [1000,100,1000,10,10,10,1,10]
 
 # TODO: Implement math expresions, ej.: simplify_romans("CD + IX") -> CDIX
 def _test_simplify_romans():
