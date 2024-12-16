@@ -20,15 +20,17 @@ romans = {
     90:'XC', 50:'L', 40:'XL', 10:'X',
     9:'IX', 5:'V', 4:'IV', 1:'I'
 }
+POINT_SYMBOL = "*"
+POINT_VALUE = 1000
 
 def get_points_when_greater_than_3999(arabic):
     points = ""
     if arabic < 10:
-        points = '*'
+        points = POINT_SYMBOL * 1
     elif arabic < 100:
-        points = '**'
+        points = POINT_SYMBOL * 2
     elif arabic < 1000:
-        points = '***'
+        points = POINT_SYMBOL * 3
     return points
 
 def to_romans(arabic_number: int) -> list[int]:
@@ -74,11 +76,29 @@ def convert_to_arabics(roman_str: str) -> list [int]:
     """
     arabic_list = []
     
+    
     for roman_symbol in roman_str:
         for roman_key, roman_value in romans.items():
             if roman_symbol == roman_value:
                 arabic_list.append(roman_key)
-            elif roman_symbol == "*":
-                arabic_list.append(1000)
+            elif roman_symbol == POINT_SYMBOL:
+                arabic_list.append(POINT_VALUE)
                 break
     return arabic_list
+
+def to_arabic(roman: str):
+    arabic_list = convert_to_arabics(roman)
+    prev_value = 0
+    compress = 0
+
+    for arabic in arabic_list:
+        if prev_value >= arabic:
+            compress = compress + arabic
+            prev_value = arabic
+        else:
+            compress = compress + (arabic - (prev_value * 2))
+            prev_value = arabic
+            
+        prev_value = arabic
+    
+    return compress
