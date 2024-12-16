@@ -65,7 +65,6 @@ def to_romans(arabic_number: int) -> list[int]:
 
     return roman_values
 
-
 def convert_to_arabics(roman_str: str) -> list [int]:
     """
     A pure conversor function that takes a string as input and returns a list
@@ -76,29 +75,36 @@ def convert_to_arabics(roman_str: str) -> list [int]:
     """
     arabic_list = []
     
-    
     for roman_symbol in roman_str:
         for roman_key, roman_value in romans.items():
             if roman_symbol == roman_value:
                 arabic_list.append(roman_key)
             elif roman_symbol == POINT_SYMBOL:
-                arabic_list.append(POINT_VALUE)
+                arabic_list.append(0)
                 break
     return arabic_list
 
-def to_arabic(roman: str):
+def to_arabic(roman: str) -> int:
+    """
+    Pure converter function that takes a str as input and returns an
+    int. The string is the representation of a roman number and the function
+    should converted to an arabic one, uses: convert_to_arabics()
+    Corner cases:
+    - If the input is an empty string, the function should return zero
+    - If the input is an invalid roman value, the function should handle the error
+    """
     arabic_list = convert_to_arabics(roman)
     prev_value = 0
     compress = 0
 
     for arabic in arabic_list:
+        if arabic == 0:
+            compress = compress * POINT_VALUE
         if prev_value >= arabic:
             compress = compress + arabic
-            prev_value = arabic
         else:
-            compress = compress + (arabic - (prev_value * 2))
-            prev_value = arabic
-            
+            compress = compress + (arabic - prev_value * 2)
+    
         prev_value = arabic
     
     return compress
