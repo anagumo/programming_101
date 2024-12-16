@@ -76,7 +76,9 @@ def convert_to_arabics(roman_str: str) -> list [int]:
     
     for roman_symbol in roman_str:
         for roman_key, roman_value in romans.items():
-            if roman_value == roman_symbol:
+            if roman_symbol == roman_value:
                 arabic_list.append(roman_key)
-
+            elif roman_symbol == "*":
+                arabic_list.append(1000)
+                break
     return arabic_list
