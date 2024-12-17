@@ -84,9 +84,9 @@ def test_to_arabic_greater_than_999999():
     assert romans.to_arabic("IX**I") == 9000001
 
 """
-Calculator of romans
+Sum of romans
 """
-def test_calc_romans():
-    assert romans.calc_romans("CD", "IX") == "CDIX"
-    assert romans.calc_romans("CM", "MCCXXIX") == "MMCXXIX"
-    assert romans.calc_romans("IV*XXXIX", "MCXXIX") == "V*CLXVIII"
+def test_sum_romans():
+    assert romans.sum_romans("CD", "IX") == "CDIX"
+    assert romans.sum_romans("CM", "MCCXXIX") == "MMCXXIX"
+    assert romans.sum_romans("IV*XXXIX", "MCXXIX") == "V*CLXVIII"
