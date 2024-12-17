@@ -1,5 +1,5 @@
 from kata.common import predicate_functions
-import re
+from typing import Tuple
 
 """
 to_romans(arabics: list[int])
@@ -24,45 +24,60 @@ romans = {
 POINT_SYMBOL = "*"
 POINT_VALUE = 1000
 
-def get_points_when_greater_than_3999(arabic):
+def get_roman_values(arabic: int) -> str:
+    """
+    A pure compressor function that takes a number as input and returns a string.
+    The output is the result to convert and concatenate each reminder of the input 
+    to a roman key.
+    """
+    symbols = ""
+
+    for key, value in romans.items():
+        while arabic >= key:
+            symbols = symbols + value
+            arabic = arabic - key
+
+    return symbols
+
+def get_asterisk(arabic) -> str :
+    """
+    A pure convertor function that takes a number as input and returns a
+    a string.
+    """
     points = ""
+
     if arabic < 1000:
         points = POINT_SYMBOL
     else:
         points = POINT_SYMBOL * 2
+    
     return points
 
-def to_romans(arabic_number: int) -> list[int]:
+def to_romans(arabic: int) -> str:
     """
     A pure conversor function that takes a number as input and returns
-    a string.
+    a string. The output is the result to conver each significative value of
+    the input to a roman key.
     Corner cases:
-    - If the input is zero, the function should return and empty list
+    - If the input is zero, the function should handle the error
+    - If the input is an invalid string, the function should handle the error
     """
-    
-    roman_values = ""
-    arabic_reminder = arabic_number
-    symplify_arabic = int(arabic_number / 1000)
-    arabic_subreminder = int(arabic_number / 1000)
-    grater_than = 3999
+    romans = ""
+    ARABIC_GREATER_THAN = int(arabic / POINT_VALUE)
+    GREATER_THAN = 3999
 
-    if predicate_functions.is_integer(arabic_number) or arabic_number != 0:
-        for key, value in romans.items():
-            while arabic_reminder >= key:
-                if arabic_reminder > grater_than:
-                    for sub_key, sub_value in romans.items():
-                        while arabic_subreminder >= sub_key:
-                            roman_values = roman_values + sub_value
-                            arabic_subreminder = arabic_subreminder - sub_key
-                    roman_values = roman_values + get_points_when_greater_than_3999(symplify_arabic)
-                    arabic_reminder = arabic_reminder - (symplify_arabic * 1000)
-                else:
-                    roman_values = roman_values + value
-                    arabic_reminder = arabic_reminder - key
+    if predicate_functions.is_integer(arabic) or arabic != 0:
+        if arabic > GREATER_THAN:
+            symbols = get_roman_values(ARABIC_GREATER_THAN)
+            romans = romans + symbols + get_asterisk(ARABIC_GREATER_THAN)
+            arabic = arabic - ARABIC_GREATER_THAN * POINT_VALUE
+
+        symbols = get_roman_values(arabic)
+        romans = romans + symbols
     else:
         raise TypeError("The input is not a valid arabic number")
 
-    return roman_values
+    return romans
 
 def to_arabic_digits(roman: str) -> list [int]:
     """
