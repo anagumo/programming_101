@@ -107,3 +107,11 @@ def to_arabic(roman: str) -> int:
         prev_value = arabic
     
     return compression
+
+def calc_romans(romanA:str, romanB: str) -> int:
+    """
+    A pure compressor function that takes two strings as input and
+    returns the sum of them.
+    """
+    result = to_arabic(romanA) + to_arabic(romanB)
+    return to_romans(result)
