@@ -20,13 +20,14 @@ romans = {
     90:'XC', 50:'L', 40:'XL', 10:'X',
     9:'IX', 5:'V', 4:'IV', 1:'I',
 }
+
 POINT_SYMBOL = "*"
 POINT_VALUE = 1000
 
 def get_points_when_greater_than_3999(arabic):
     points = ""
     if arabic < 1000:
-        points = POINT_SYMBOL * 1
+        points = POINT_SYMBOL
     else:
         points = POINT_SYMBOL * 2
     return points
