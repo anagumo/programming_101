@@ -2,16 +2,6 @@ from kata.common import predicate_functions
 from typing import Tuple
 
 """
-to_romans(arabics: list[int])
-Sample input/output: 1939 -> MCMXXXIX
-
-Instructions:
-1. Convert the number into a list where each element is a valid key
-from romans dictionary: to_romans(number)
-2. Compress the number list into a string where each element is a Roman numeral
-"""
-
-"""
 Structure data that includes the significant roman symbols
 """
 romans = {
@@ -23,6 +13,16 @@ romans = {
 
 POINT_SYMBOL = "*"
 POINT_VALUE = 1000
+
+"""
+to_romans(number: int)
+Sample input/output: 1939 -> "MCMXXXIX"
+
+Instructions:
+1. Convert the number into a list where each element is a valid key
+from romans dictionary: to_romans(number)
+2. Compress the number list into a string where each element is a Roman numeral
+"""
 
 def get_roman_values(arabic: int) -> str:
     """
@@ -79,7 +79,17 @@ def to_romans(arabic: int) -> str:
 
     return romans
 
-def to_arabic_digits(roman: str) -> list [int]:
+"""
+to_arabic(roman: str)
+Sample input/output: "MCMXXXIX" -> 1939
+
+Instructions:
+1. Convert the number into a list where each element is a valid key
+from romans dictionary: to_romans(number)
+2. Compress the number list into a string where each element is a Roman numeral
+"""
+
+def to_arabic_list(roman: str) -> list [int]:
     """
     A pure conversor function that takes a string as input and returns a list
     of numbers where each element is the conversion from roman symbol to arabic number.
@@ -88,13 +98,14 @@ def to_arabic_digits(roman: str) -> list [int]:
     - If the input is an invalid str, the function should handle the error.
     """
     arabic_list = []
+    LOCAL_POINT_VALUE = 0
     
     for symbol in roman:
         for roman_key, roman_value in romans.items():
             if symbol == roman_value:
                 arabic_list.append(roman_key)
             elif symbol == POINT_SYMBOL:
-                arabic_list.append(0)
+                arabic_list.append(LOCAL_POINT_VALUE)
                 break
     return arabic_list
 
@@ -107,11 +118,11 @@ def to_arabic(roman: str) -> int:
     - If the input is an empty string, the function should return zero
     - If the input is an invalid roman value, the function should handle the error
     """
-    arabic_digits = to_arabic_digits(roman)
+    arabic_list = to_arabic_list(roman)
     prev_value = 0
     compression = 0
 
-    for arabic in arabic_digits:
+    for arabic in arabic_list:
         if arabic == 0:
             compression = compression * POINT_VALUE
         if prev_value >= arabic:
@@ -123,6 +134,10 @@ def to_arabic(roman: str) -> int:
     
     return compression
 
+"""
+sum_romans(a:str, b: str)
+Sample input/output: "CD", "IX" -> "CDIX"
+"""
 def sum_romans(a:str, b: str) -> int:
     """
     A pure compressor function that takes two strings as input and
