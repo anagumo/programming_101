@@ -5,14 +5,17 @@ import romans
 Convert from arabic to roman
 """
 def test_value_raises_type_error():
-    with raises(TypeError):
+    with raises(romans.RomanNumberError) as context:
         romans.to_romans("")
-    
-    with raises(TypeError):
-        romans.to_romans("0")
+    assert str(context.value).endswith("is not a valid number")
 
-    with raises(TypeError):
+    with raises(romans.RomanNumberError):
+        romans.to_romans("0")
+    assert str(context.value).endswith("is not a valid number")
+
+    with raises(romans.RomanNumberError):
         romans.to_romans("zsh")
+    assert str(context.value).endswith("is not a valid number")
 
 def test_units():
     assert romans.to_romans(3) == "III"

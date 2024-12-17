@@ -1,5 +1,7 @@
 from kata.common import predicate_functions
-from typing import Tuple
+
+class RomanNumberError(Exception):
+    pass
 
 """
 Structure data that includes the significant roman symbols
@@ -53,7 +55,7 @@ def get_asterisk(arabic) -> str :
     
     return points
 
-def to_romans(arabic: int) -> str:
+def to_romans(input: int) -> str:
     """
     A pure conversor function that takes a number as input and returns
     a string. The output is the result to conver each significative value of
@@ -62,22 +64,25 @@ def to_romans(arabic: int) -> str:
     - If the input is zero, the function should handle the error
     - If the input is an invalid string, the function should handle the error
     """
-    romans = ""
-    ARABIC_GREATER_THAN = int(arabic / POINT_VALUE)
+    roman_symbols = ""
     GREATER_THAN = 3999
-
-    if predicate_functions.is_integer(arabic) or arabic != 0:
-        if arabic > GREATER_THAN:
-            symbols = get_roman_values(ARABIC_GREATER_THAN)
-            romans = romans + symbols + get_asterisk(ARABIC_GREATER_THAN)
-            arabic = arabic - ARABIC_GREATER_THAN * POINT_VALUE
-
-        symbols = get_roman_values(arabic)
-        romans = romans + symbols
+    
+    if predicate_functions.is_integer(input):
+        arabic = int(input)
+        if arabic > 0:
+            ARABIC_THOUSAND = int(arabic / 1000)
+            if arabic > GREATER_THAN:
+                symbols = get_roman_values(ARABIC_THOUSAND)
+                roman_symbols = roman_symbols + symbols + get_asterisk(ARABIC_THOUSAND)
+                arabic = arabic - ARABIC_THOUSAND * 1000
+            symbols = get_roman_values(arabic)
+            roman_symbols = roman_symbols + symbols
+        else:
+            raise RomanNumberError(f"{input} is not a valid number")
     else:
-        raise TypeError("The input is not a valid arabic number")
+        raise RomanNumberError(f"{input} is not a valid number")
 
-    return romans
+    return roman_symbols
 
 """
 to_arabic(roman: str)
