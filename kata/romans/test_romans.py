@@ -1,6 +1,9 @@
 from pytest import raises
 import romans
 
+"""
+Convert from arabic to roman
+"""
 def test_value_raises_type_error():
     with raises(TypeError):
         romans.to_romans("")
@@ -31,17 +34,6 @@ def test_thousands_less_than_3999():
     assert romans.to_romans(1323) == "MCCCXXIII"
     assert romans.to_romans(1939) == "MCMXXXIX"
 
-"""
-============================================================================ test session starts =============================================================================
-platform darwin -- Python 3.9.6, pytest-8.3.4, pluggy-1.5.0
-rootdir: keepcoding/programming_101
-collected 5 items                                                                                                                                                            
-
-kata/romans/test_romans.py .....
-
-============================================================================= 5 passed in 0.01s ==============================================================================
-"""
-
 def _test_arabic_raises_value_error_when_greater_than_3999():
     with not raises(ValueError):
         romans.to_romans(4000)
@@ -50,33 +42,31 @@ def _test_arabic_raises_value_error_when_greater_than_3999():
     with not raises(ValueError):
         romans.to_romans(980345)
 
-def test_numbers_greater_than_3999_and_less_than_10000():
+def test_numbers_greater_than_3999_and_less_than_1000000():
     assert romans.to_romans(4825) == "IV*DCCCXXV"
     assert romans.to_romans(6001) == "VI*I"
     assert romans.to_romans(9001) == "IX*I"
 
-def test_numbers_greater_than_9999_and_less_than_100000():
-    assert romans.to_romans(40825) == "XL**DCCCXXV"
-    assert romans.to_romans(11001) == "XI**I"
-    assert romans.to_romans(90001) == "XC**I"
+    assert romans.to_romans(40825) == "XL*DCCCXXV"
+    assert romans.to_romans(11001) == "XI*I"
+    assert romans.to_romans(90001) == "XC*I"
 
-def test_numbers_greater_than_99999_and_less_than_1000000():
-    assert romans.to_romans(400825) == "CD***DCCCXXV"
-    assert romans.to_romans(600001) == "DC***I"
-    assert romans.to_romans(900001) == "CM***I"
+    assert romans.to_romans(400825) == "CD*DCCCXXV"
+    assert romans.to_romans(600001) == "DC*I"
+    assert romans.to_romans(900001) == "CM*I"
 
 """
-Convert a roman number into an arabic numbers list
+Convert from roman to arabic
 """
-def test_convert_to_arabics_less_than_3999():
-    assert romans.convert_to_arabics("VI") == [5,1]
-    assert romans.convert_to_arabics("XCIX") == [10,100,1,10]
-    assert romans.convert_to_arabics("MMMCMXCIX") == [1000,1000,1000,100,1000,10,100,1,10]
+def test_convert_to_arabic_digits_less_than_3999():
+    assert romans.to_arabic_digits("VI") == [5,1]
+    assert romans.to_arabic_digits("XCIX") == [10,100,1,10]
+    assert romans.to_arabic_digits("MMMCMXCIX") == [1000,1000,1000,100,1000,10,100,1,10]
 
-def test_convert_to_arabics_greater_than_3999():
-    assert romans.convert_to_arabics("IV*DCCCXXV") == [1,5,0,500,100,100,100,10,10,5]
-    assert romans.convert_to_arabics("VI*I") == [5,1,0,1]
-    assert romans.convert_to_arabics("IX*I") == [1,10,0,1]
+def test_convert_to_arabic_digits_greater_than_3999():
+    assert romans.to_arabic_digits("IV*DCCCXXV") == [1,5,0,500,100,100,100,10,10,5]
+    assert romans.to_arabic_digits("VI*I") == [5,1,0,1]
+    assert romans.to_arabic_digits("IX*I") == [1,10,0,1]
 
 def test_to_arabic_less_than_3999():
     assert romans.to_arabic("VI") == 6
@@ -88,10 +78,10 @@ def test_to_arabic_greater_than_3999_less_than_100000():
     assert romans.to_arabic("XV*CCXXIII") == 15223
     assert romans.to_arabic("XC*CMXCIX") == 90999
 
-def _test_to_arabic_greater_than_999999_less_than_1000000():
-    assert romans.to_arabic("CD***DCCCXXV") == 400825
-    assert romans.to_arabic("DC***I") == 600001
-    assert romans.to_arabic("CM***I") == 900001
+def test_to_arabic_greater_than_999999():
+    assert romans.to_arabic("VI**DCCCXXV") == 6000825
+    assert romans.to_arabic("IV**I") == 4000001
+    assert romans.to_arabic("IX**I") == 9000001
 
 # TODO: Implement math expresions, ej.: simplify_romans("CD + IX") -> CDIX
 def _test_simplify_romans():
