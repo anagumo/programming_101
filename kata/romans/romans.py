@@ -10,11 +10,8 @@ romans = {
     1000:'M',
     900:'CM', 500:'D', 400:'CD', 100:'C',
     90:'XC', 50:'L', 40:'XL', 10:'X',
-    9:'IX', 5:'V', 4:'IV', 1:'I',
+    9:'IX', 5:'V', 4:'IV', 1:'I'
 }
-
-POINT_SYMBOL = "*"
-POINT_VALUE = 1000
 
 """
 to_romans(number: int)
@@ -41,20 +38,6 @@ def get_roman_values(arabic: int) -> str:
 
     return symbols
 
-def get_asterisk(arabic) -> str :
-    """
-    A pure convertor function that takes a number as input and returns a
-    a string.
-    """
-    points = ""
-
-    if arabic < 1000:
-        points = POINT_SYMBOL
-    else:
-        points = POINT_SYMBOL * 2
-    
-    return points
-
 def to_romans(input: int) -> str:
     """
     A pure conversor function that takes a number as input and returns
@@ -66,6 +49,7 @@ def to_romans(input: int) -> str:
     """
     roman_symbols = ""
     GREATER_THAN = 3999
+    num_points = lambda num: '*' * 2 if arabic < 1000 else '*'
     
     if predicate_functions.is_integer(input):
         arabic = int(input)
@@ -73,7 +57,7 @@ def to_romans(input: int) -> str:
             ARABIC_THOUSAND = int(arabic / 1000)
             if arabic > GREATER_THAN:
                 symbols = get_roman_values(ARABIC_THOUSAND)
-                roman_symbols = roman_symbols + symbols + get_asterisk(ARABIC_THOUSAND)
+                roman_symbols = roman_symbols + symbols + num_points(ARABIC_THOUSAND)
                 arabic = arabic - ARABIC_THOUSAND * 1000
             symbols = get_roman_values(arabic)
             roman_symbols = roman_symbols + symbols
@@ -103,14 +87,13 @@ def to_arabic_list(roman: str) -> list [int]:
     - If the input is an invalid str, the function should handle the error.
     """
     arabic_list = []
-    LOCAL_POINT_VALUE = 0
     
     for symbol in roman:
         for roman_key, roman_value in romans.items():
             if symbol == roman_value:
                 arabic_list.append(roman_key)
-            elif symbol == POINT_SYMBOL:
-                arabic_list.append(LOCAL_POINT_VALUE)
+            elif symbol == "*":
+                arabic_list.append(0)
                 break
     return arabic_list
 
@@ -129,7 +112,7 @@ def to_arabic(roman: str) -> int:
 
     for arabic in arabic_list:
         if arabic == 0:
-            compression = compression * POINT_VALUE
+            compression = compression * 1000
         if prev_value >= arabic:
             compression = compression + arabic
         else:
