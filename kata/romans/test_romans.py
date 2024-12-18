@@ -80,11 +80,3 @@ def test_invalid_roman_symbols():
     with raises(romans.RomanNumberError) as context:
         romans.to_arabic("ASDF")
     assert str(context.value).endswith("is not a valid roman symbol")
-
-"""
-Sum of romans
-"""
-def test_sum_romans():
-    assert romans.sum_romans("CD", "IX") == "CDIX"
-    assert romans.sum_romans("CM", "MCCXXIX") == "MMCXXIX"
-    assert romans.sum_romans("IV*XXXIX", "MCXXIX") == "V*CLXVIII"
