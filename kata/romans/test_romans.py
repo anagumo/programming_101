@@ -82,18 +82,19 @@ def test_invalid_roman_symbols():
     assert str(context.value).endswith("is not a valid roman symbol")
 
 def test_more_than_3_repeat():
-    assert not is_valid_repetition("IIII")
-    assert not is_valid_repetition("DD")
-    assert not is_valid_repetition("CMCCCCVV")
+    assert is_valid_repetition("IIII") == (False, 3)
+    assert is_valid_repetition("DD") == (False, 1)
+    assert is_valid_repetition("CMCCCCVV") == (False, 3)
 
-    """with raises(RomanNumberError) as context:
-        is_valid_repetition("I","I")
+def test_roman_with_invalid_repetitions():
+    with raises(RomanNumberError) as context:
+        to_arabic("XXXXXIX")
     assert str(context.value).endswith("can be repeated more than 3 times")
 
     with raises(RomanNumberError) as context:
-        is_valid_repetition("VV")
-    assert str(context.value).endswith("can be repeated more than 1 time")
+        to_arabic("DDD")
+    assert str(context.value).endswith("can be repeated more than 1 times")
 
     with raises(RomanNumberError) as context:
-        is_valid_repetition("DDCCCC")
-    assert str(context.value).endswith("can be repeated more than specified times")"""
+        to_arabic("MCVV")
+    assert str(context.value).endswith("can be repeated more than 1 times")

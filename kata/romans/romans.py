@@ -86,17 +86,17 @@ from romans dictionary: to_romans(number)
 2. Compress the number list into a string where each element is a Roman numeral
 """
 
-def is_valid_repetition(roman: str) -> bool:
+def is_valid_repetition(roman: str):
     invalid_repetitions = {
         4: ['I','X','C','M'],
         2: ['V','L','D']
     }
-    prev_value = roman[0]
-    char_counter = 1
+    prev_char = ""
+    char_counter = 0
     is_valid_repetition = True
 
     for char in roman:
-        if prev_value == char:
+        if prev_char == char:
             char_counter = char_counter + 1
             repeated_symbols = invalid_repetitions.get(char_counter)
             if repeated_symbols != None and char in repeated_symbols:
@@ -105,9 +105,9 @@ def is_valid_repetition(roman: str) -> bool:
         else:
             char_counter = 1
         
-        prev_value = char
+        prev_char = char
     
-    return is_valid_repetition
+    return is_valid_repetition, char_counter - 1
 
 def to_arabic(roman: str) -> int:
     """
@@ -120,6 +120,10 @@ def to_arabic(roman: str) -> int:
     """
     prev_value = 0
     compression = 0
+
+    is_valid, symbol_limit = is_valid_repetition(roman)
+    if not is_valid:
+        raise RomanNumberError(f"{roman} can be repeated more than {symbol_limit} times")
 
     for char in roman:
         roman_value = romans_for_symbol.get(char)
