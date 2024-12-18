@@ -61,16 +61,6 @@ def test_numbers_greater_than_3999_and_less_than_1000000():
 """
 Convert from roman to arabic
 """
-def test_convert_to_arabic_digits_less_than_3999():
-    assert romans.split_into_arabics("VI") == [5,1]
-    assert romans.split_into_arabics("XCIX") == [10,100,1,10]
-    assert romans.split_into_arabics("MMMCMXCIX") == [1000,1000,1000,100,1000,10,100,1,10]
-
-def test_convert_to_arabic_digits_greater_than_3999():
-    assert romans.split_into_arabics("IV*DCCCXXV") == [1,5,0,500,100,100,100,10,10,5]
-    assert romans.split_into_arabics("VI*I") == [5,1,0,1]
-    assert romans.split_into_arabics("IX*I") == [1,10,0,1]
-
 def test_to_arabic_less_than_3999():
     assert romans.to_arabic("VI") == 6
     assert romans.to_arabic("XCIX") == 99
@@ -88,7 +78,7 @@ def test_to_arabic_greater_than_999999():
 
 def test_invalid_roman_symbols():
     with raises(romans.RomanNumberError) as context:
-        romans.split_into_arabics("ASDF")
+        romans.to_arabic("ASDF")
     assert str(context.value).endswith("is not a valid roman symbol")
 
 """

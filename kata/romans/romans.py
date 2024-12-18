@@ -56,16 +56,17 @@ def to_romans(input: int) -> str:
     """
     roman_symbols = ""
     GREATER_THAN = 3999
-    num_points = lambda num: '*' if num < 1000 else '*' * 2 
+    M_VALUE = romans_for_symbol.get('M')
+    num_points = lambda num: '*' if num < M_VALUE else '*' * 2
     
     if predicate_functions.is_integer(input):
         arabic = int(input)
         if arabic > 0:
-            arabic_thousand = int(arabic / 1000)
+            arabic_thousand = int(arabic / M_VALUE)
             if arabic > GREATER_THAN:
                 symbols = get_roman_values(arabic_thousand)
                 roman_symbols = roman_symbols + symbols + num_points(arabic_thousand)
-                arabic = arabic - arabic_thousand * 1000
+                arabic = arabic - arabic_thousand * M_VALUE
             symbols = get_roman_values(arabic)
             roman_symbols = roman_symbols + symbols
         else:
@@ -85,26 +86,6 @@ from romans dictionary: to_romans(number)
 2. Compress the number list into a string where each element is a Roman numeral
 """
 
-def split_into_arabics(roman: str) -> list [int]:
-    """
-    A pure conversor function that takes a string as input and returns a list
-    of numbers where each element is the conversion from roman symbol to arabic number.
-    Corner cases:
-    - If the input is an empty string, the function should return an empty list.
-    - If the input is an invalid str, the function should handle the error.
-    """
-    arabic_list = []
-    
-    for char in roman:
-        roman_value = romans_for_symbol.get(char)
-
-        if roman_value == None:
-            raise RomanNumberError(f"{roman_value} is not a valid roman symbol")
-        else:
-            arabic_list.append(roman_value)
-
-    return arabic_list
-
 def to_arabic(roman: str) -> int:
     """
     Pure compress function that takes a str as input and returns an
@@ -114,19 +95,22 @@ def to_arabic(roman: str) -> int:
     - If the input is an empty string, the function should return zero
     - If the input is an invalid roman value, the function should handle the error
     """
-    arabic_list = split_into_arabics(roman)
     prev_value = 0
     compression = 0
 
-    for arabic in arabic_list:
-        if arabic == 0:
-            compression = compression * 1000
-        if prev_value >= arabic:
-            compression = compression + arabic
+    for char in roman:
+        roman_value = romans_for_symbol.get(char)
+
+        if roman_value == None:
+            raise RomanNumberError(f"{roman_value} is not a valid roman symbol")
+        elif roman_value == romans_for_symbol.get('*'):
+            compression = compression * romans_for_symbol.get('M')
+        elif prev_value >= roman_value:
+            compression = compression + roman_value
         else:
-            compression = compression + (arabic - prev_value * 2)
-    
-        prev_value = arabic
+            compression = compression + (roman_value - prev_value * 2)
+
+        prev_value = roman_value
     
     return compression
 
