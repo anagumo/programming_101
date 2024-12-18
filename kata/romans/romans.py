@@ -6,7 +6,14 @@ class RomanNumberError(Exception):
 """
 Structure data that includes the significant roman symbols
 """
-romans = {
+romans_for_symbol = {
+    '*':0,
+    'I':1, 'IV':4, 'V':5, 'IX':9,
+    'X':10, 'XL':40, 'L':50, 'XC':90,
+    'C':100, 'CD':400, 'D':500, 'CM':900,
+    'M':1000
+}
+romans_for_arabic = {
     1000:'M',
     900:'CM', 500:'D', 400:'CD', 100:'C',
     90:'XC', 50:'L', 40:'XL', 10:'X',
@@ -31,7 +38,7 @@ def get_roman_values(arabic: int) -> str:
     """
     symbols = ""
 
-    for key, value in romans.items():
+    for key, value in romans_for_arabic.items():
         while arabic >= key:
             symbols = symbols + value
             arabic = arabic - key
@@ -78,7 +85,7 @@ from romans dictionary: to_romans(number)
 2. Compress the number list into a string where each element is a Roman numeral
 """
 
-def to_arabic_list(roman: str) -> list [int]:
+def split_into_arabics(roman: str) -> list [int]:
     """
     A pure conversor function that takes a string as input and returns a list
     of numbers where each element is the conversion from roman symbol to arabic number.
@@ -88,13 +95,14 @@ def to_arabic_list(roman: str) -> list [int]:
     """
     arabic_list = []
     
-    for symbol in roman:
-        for roman_key, roman_value in romans.items():
-            if symbol == roman_value:
-                arabic_list.append(roman_key)
-            elif symbol == "*":
-                arabic_list.append(0)
-                break
+    for char in roman:
+        roman_value = romans_for_symbol.get(char)
+
+        if roman_value == None:
+            raise RomanNumberError(f"{roman_value} is not a valid roman symbol")
+        else:
+            arabic_list.append(roman_value)
+
     return arabic_list
 
 def to_arabic(roman: str) -> int:
@@ -106,7 +114,7 @@ def to_arabic(roman: str) -> int:
     - If the input is an empty string, the function should return zero
     - If the input is an invalid roman value, the function should handle the error
     """
-    arabic_list = to_arabic_list(roman)
+    arabic_list = split_into_arabics(roman)
     prev_value = 0
     compression = 0
 
