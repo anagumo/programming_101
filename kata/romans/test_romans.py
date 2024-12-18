@@ -1,5 +1,5 @@
 from pytest import raises
-from romans import to_romans, to_arabic, RomanNumberError
+from romans import to_romans, to_arabic, is_valid_repetition, RomanNumberError
 
 """
 Convert from arabic to roman test
@@ -80,3 +80,20 @@ def test_invalid_roman_symbols():
     with raises(RomanNumberError) as context:
         to_arabic("ASDF")
     assert str(context.value).endswith("is not a valid roman symbol")
+
+def test_more_than_3_repeat():
+    assert not is_valid_repetition("IIII")
+    assert not is_valid_repetition("DD")
+    assert not is_valid_repetition("CMCCCCVV")
+
+    """with raises(RomanNumberError) as context:
+        is_valid_repetition("I","I")
+    assert str(context.value).endswith("can be repeated more than 3 times")
+
+    with raises(RomanNumberError) as context:
+        is_valid_repetition("VV")
+    assert str(context.value).endswith("can be repeated more than 1 time")
+
+    with raises(RomanNumberError) as context:
+        is_valid_repetition("DDCCCC")
+    assert str(context.value).endswith("can be repeated more than specified times")"""

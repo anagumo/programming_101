@@ -86,6 +86,29 @@ from romans dictionary: to_romans(number)
 2. Compress the number list into a string where each element is a Roman numeral
 """
 
+def is_valid_repetition(roman: str) -> bool:
+    invalid_repetitions = {
+        4: ['I','X','C','M'],
+        2: ['V','L','D']
+    }
+    prev_value = roman[0]
+    char_counter = 1
+    is_valid_repetition = True
+
+    for char in roman:
+        if prev_value == char:
+            char_counter = char_counter + 1
+            repeated_symbols = invalid_repetitions.get(char_counter)
+            if repeated_symbols != None and char in repeated_symbols:
+                is_valid_repetition = False
+                break
+        else:
+            char_counter = 1
+        
+        prev_value = char
+    
+    return is_valid_repetition
+
 def to_arabic(roman: str) -> int:
     """
     Pure compress function that takes a str as input and returns an
