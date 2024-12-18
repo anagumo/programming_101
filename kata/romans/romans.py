@@ -49,16 +49,16 @@ def to_romans(input: int) -> str:
     """
     roman_symbols = ""
     GREATER_THAN = 3999
-    num_points = lambda num: '*' * 2 if arabic < 1000 else '*'
+    num_points = lambda num: '*' if num < 1000 else '*' * 2 
     
     if predicate_functions.is_integer(input):
         arabic = int(input)
         if arabic > 0:
-            ARABIC_THOUSAND = int(arabic / 1000)
+            arabic_thousand = int(arabic / 1000)
             if arabic > GREATER_THAN:
-                symbols = get_roman_values(ARABIC_THOUSAND)
-                roman_symbols = roman_symbols + symbols + num_points(ARABIC_THOUSAND)
-                arabic = arabic - ARABIC_THOUSAND * 1000
+                symbols = get_roman_values(arabic_thousand)
+                roman_symbols = roman_symbols + symbols + num_points(arabic_thousand)
+                arabic = arabic - arabic_thousand * 1000
             symbols = get_roman_values(arabic)
             roman_symbols = roman_symbols + symbols
         else:
